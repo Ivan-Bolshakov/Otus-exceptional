@@ -1,0 +1,33 @@
+name: Exeptional
+
+on: 
+  push:
+  pull_request:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build cmake
+          ninja --version
+          cmake --version
+          gcc --version
+          
+      - name: Build
+        shell: bash
+        run: | 
+          cmake .
+          cmake --build . 
+      - name: Test
+        shell: bash
+        run: | 
+          echo run tests
+          ./bin/test_exeptional
